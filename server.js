@@ -27,10 +27,16 @@ mongoose.connect('mongodb://localhost:27017/companyDB', {
 const db = mongoose.connection;
 
 db.once('open', () => {
-  console.log('Connected to the database');
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('Connected to the database');
+  }
 });
 db.on('error', (err) => console.log('Error ' + err));
 
-app.listen('8000', () => {
-  console.log('Server is running on port: 8000');
+const server = app.listen('8000', () => {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('Server is running on port: 8000');
+  }
 });
+
+module.exports = server;
